@@ -1,0 +1,6 @@
+install.packages("ahp")
+devtools::install_github("calote/ahp", build_vignettes = TRUE, force = TRUE)
+devtools::install_github("calote/ahp", force = TRUE)
+library(ahp)
+install.packages("markdown")
+ahp::RunGUI()

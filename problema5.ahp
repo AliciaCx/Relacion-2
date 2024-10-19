@@ -1,0 +1,27 @@
+Version: 2.0
+Alternatives: &alternatives
+  AltA:
+  AltB:
+Goal:
+  name: Elegir mejor alternativa
+  preferences:
+    pairwise:
+      - [Liderazgo, Habilidad personal, 1/3]
+      - [Liderazgo, Habilidad gestión, 1/4]
+      - [Habilidad personal, Habilidad gestión, 2]
+  children:
+    Liderazgo:
+      preferences:
+       pairwise:
+         - [AltA, AltB, 4]
+      children: *alternatives
+    Habilidad personal:
+      preferences:
+       pairwise:
+         - [AltA, AltB, 3]
+      children: *alternatives
+    Habilidad gestión:
+      preferences:
+       pairwise:
+         - [AltA, AltB, 2]
+      children: *alternatives

@@ -1,0 +1,578 @@
+---
+title: "Relacion 2"
+date: "Curso 2024-2025"
+output:
+  pdf_document:
+    toc: true
+    number_sections: true
+    toc_depth: 5
+lang: es
+number-sections: true
+toc: true
+---
+
+
+```{r setup, include=FALSE, warning=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r, echo=FALSE, warning=FALSE}
+source("teoriadecision_funciones_multicriterio_diagram.R")
+source("teoriadecision_funciones_multicriterio_utiles.R")
+source("teoriadecision_funciones_multicriterio.R")
+```
+
+\newpage
+
+# EJERCICIO 1
+
+## Apartado a)
+
+```{r}
+tab01a <- multicriterio.crea.matrizvaloraciones(c(1,0,1,
+                                              1,1,1,
+                                              0,0,1), numalternativas = 3)
+```
+
+
+```{r, echo=FALSE}
+tab01a %>%
+  kable(booktabs = TRUE,format = "latex") %>%
+  kable_styling(latex_options = c("striped", "condensed","HOLD_position"), 
+                position = "center",
+                full_width = FALSE)
+```
+
+  -   Método de construcción de la función de utilidad "Maximal"
+
+```{r}
+(sol01a <- multicriterio.constfuncutilidad.maximales(tab01a)) # suma por filas
+```
+
+Cuánto más alto mejor, por lo tanto nos está diciendo que la mejor alternativa sería a2. La siguiente es la a1 y la peor es a 3. Ahora ordenamos de mejor a peor:
+
+```{r}
+sort(sol01a, decreasing = T)
+```
+
+  -   Método de construcción de la función de utilidad "Borroso"
+  
+```{r}
+(sol01aBor <- multicriterio.constfuncutilidad.estructuraborrosa(tab01a)) #calculo del flujo neto
+sort(sol01aBor, decreasing = T)
+```
+
+La mejor es la alternativa 2
+
+\newpage
+
+## Apartado b)
+```{r}
+tab01b <- multicriterio.crea.matrizvaloraciones(c(1,0,1,
+                                              1,1,1,
+                                              1,0,1), numalternativas = 3)
+```
+
+```{r, echo=FALSE}
+tab01b %>%
+  kable(booktabs = TRUE,format = "latex") %>%
+  kable_styling(latex_options = c("striped", "condensed","HOLD_position"), 
+                position = "center",
+                full_width = FALSE)
+```
+
+  -   Método de construcción de la función de utilidad "Maximal".
+
+```{r}
+(sol01b <- multicriterio.constfuncutilidad.maximales(tab01b)) # suma por filas
+sort(sol01b, decreasing = T)
+```
+
+La mejor es la alternativa 2
+
+  -   Método de construcción de la función de utilidad "Borroso"
+  
+```{r}
+(sol01bBor <- multicriterio.constfuncutilidad.estructuraborrosa(tab01b)) #calculo del flujo neto
+sort(sol01bBor, decreasing = T)
+```
+
+La mejor es la alternativa 2
+
+## Apartado c)
+```{r}
+tab01c <- multicriterio.crea.matrizvaloraciones(rep(1,9), numalternativas = 3)
+```
+
+```{r, echo=FALSE}
+tab01c %>%
+  kable(booktabs = TRUE,format = "latex") %>%
+  kable_styling(latex_options = c("striped", "condensed","HOLD_position"), 
+                position = "center",
+                full_width = FALSE)
+```
+
+  -   Método de construcción de la función de utilidad "Maximal".
+
+```{r}
+(sol01c <- multicriterio.constfuncutilidad.maximales(tab01c)) # suma por filas
+sort(sol01c, decreasing = T)
+```
+
+Cualquiera de los 3 es la mejor alternativa
+
+  -   Método de construcción de la función de utilidad "Borroso"
+  
+```{r}
+(sol01cBor <- multicriterio.constfuncutilidad.estructuraborrosa(tab01c)) #calculo del flujo neto
+sort(sol01cBor, decreasing = T)
+```
+
+Cualquiera de los 3 es la mejor alternativa
+
+## Apartado d)
+```{r}
+tab01d <- multicriterio.crea.matrizvaloraciones(c(1,1,1,0,1,
+                                                  0,1,0,0,1,
+                                                  1,0,1,0,1,
+                                                  1,1,1,1,0,
+                                                  0,0,0,0,1), numalternativas = 5)
+```
+
+```{r, echo=FALSE}
+tab01d %>%
+  kable(booktabs = TRUE,format = "latex") %>%
+  kable_styling(latex_options = c("striped", "condensed","HOLD_position"), 
+                position = "center",
+                full_width = FALSE)
+```
+
+  -   Método de construcción de la función de utilidad "Maximal".
+
+```{r}
+(sol01d <- multicriterio.constfuncutilidad.maximales(tab01d)) # suma por filas
+sort(sol01d, decreasing = T)
+```
+
+La mejor es la alternativa 4
+
+  -   Método de construcción de la función de utilidad "Borroso"
+  
+```{r}
+(sol01dBor <- multicriterio.constfuncutilidad.estructuraborrosa(tab01d)) #calculo del flujo neto
+sort(sol01dBor, decreasing = T)
+```
+
+La mejor es la alternativa 4
+
+## Apartado e)
+```{r}
+tab01e <- multicriterio.crea.matrizvaloraciones(c(1,1,1,0,1,
+                                                  0,1,0,0,1,
+                                                  1,1,1,0,1,
+                                                  1,1,1,1,0,
+                                                  0,0,0,0,1), numalternativas = 5)
+```
+
+```{r, echo=FALSE}
+tab01e %>%
+  kable(booktabs = TRUE,format = "latex") %>%
+  kable_styling(latex_options = c("striped", "condensed","HOLD_position"), 
+                position = "center",
+                full_width = FALSE)
+```
+
+\newpage
+
+  -   Método de construcción de la función de utilidad "Maximal".
+
+```{r}
+(sol01e <- multicriterio.constfuncutilidad.maximales(tab01e)) # suma por filas
+sort(sol01e, decreasing = T)
+```
+
+La mejor es la alternativa 4
+
+  -   Método de construcción de la función de utilidad "Borroso"
+  
+```{r}
+(sol01eBor <- multicriterio.constfuncutilidad.estructuraborrosa(tab01e)) #calculo del flujo neto
+sort(sol01eBor, decreasing = T)
+```
+
+La mejor es la alternativa 4
+
+# EJERCICIO 2
+
+## Apartado a)
+
+```{r}
+tab02a <- multicriterio.crea.matrizvaloraciones(c(0,0.4,0.7,
+                                                  0.2,0,0.5,
+                                                  0.3,0.6,0), numalternativas = 3)
+```
+
+```{r, echo=FALSE}
+tab02a %>%
+  kable(booktabs = TRUE,format = "latex") %>%
+  kable_styling(latex_options = c("striped", "condensed","HOLD_position"), 
+                position = "center",
+                full_width = FALSE)
+```
+
+\newpage
+
+  -   Método de construcción de la función de utilidad "Maximal".
+
+```{r}
+(sol02a <- multicriterio.constfuncutilidad.maximales(tab02a)) # suma por filas
+sort(sol02a, decreasing = T)
+```
+
+La mejor es la alternativa 1
+
+  -   Método de construcción de la función de utilidad "Borroso"
+  
+```{r}
+(sol02aBor <- multicriterio.constfuncutilidad.estructuraborrosa(tab02a)) #calculo del flujo neto
+sort(sol02aBor, decreasing = T)
+```
+
+La mejor es la alternativa 1
+
+## Apartado b)
+```{r}
+tab02b <- multicriterio.crea.matrizvaloraciones(c(0,0.2,0.4,
+                                                  0.9,0,0.8,
+                                                  0.1,0.3,0), numalternativas = 3)
+```
+
+```{r, echo=FALSE}
+tab02b %>%
+  kable(booktabs = TRUE,format = "latex") %>%
+  kable_styling(latex_options = c("striped", "condensed","HOLD_position"), 
+                position = "center",
+                full_width = FALSE)
+```
+
+  -   Método de construcción de la función de utilidad "Maximal".
+
+```{r}
+(sol02b <- multicriterio.constfuncutilidad.maximales(tab02b)) # suma por filas
+sort(sol02b, decreasing = T)
+```
+
+La mejor es la alternativa 2
+
+  -   Método de construcción de la función de utilidad "Borroso"
+  
+```{r}
+(sol02bBor <- multicriterio.constfuncutilidad.estructuraborrosa(tab02b)) #calculo del flujo neto
+sort(sol02bBor, decreasing = T)
+```
+
+La mejor es la alternativa 2
+
+
+# EJERCICIO 3
+
+```{r}
+tab03 <- multicriterio.crea.matrizdecision(c(100,15,7,40,50,
+                                             200,25,7,60,200,
+                                             100,20,4,25,25,
+                                             200,30,20,70,350,
+                                             250,25,25,100,500), numalternativas = 5, numcriterios = 5)
+```
+
+```{r, echo=FALSE}
+tab03 %>%
+  kable(booktabs = TRUE,format = "latex") %>%
+  kable_styling(latex_options = c("striped", "condensed","HOLD_position"), 
+                position = "center",
+                full_width = FALSE)
+```
+
+## Apartado a)
+
+Vamos a homogeneizar las columnas de la tabla de decisión por el método Nadir
+
+```{r}
+sol03a <- round(multicriterio.homogeneizacion.nadir(tab03), 4)
+```
+
+```{r, echo=FALSE}
+sol03a %>%
+  kable(booktabs = TRUE,format = "latex") %>%
+  kable_styling(latex_options = c("striped", "condensed","HOLD_position"), 
+                position = "center",
+                full_width = FALSE)
+```
+
+## Apartado b)
+
+Vamos a homogeneizar las columnas de la tabla de decisión por el método Ptomethee
+
+```{r}
+sol03b <- round(multicriterio.homogeneizacion.promethee(tab03,
+                                                        v.delta.min = c(30,3,4,20,100),
+                                                        v.delta.max = c(120,12,10,60,400)), 4)
+```
+
+```{r, echo=FALSE}
+sol03b %>%
+  kable(booktabs = TRUE,format = "latex") %>%
+  kable_styling(latex_options = c("striped", "condensed","HOLD_position"), 
+                position = "center",
+                full_width = FALSE)
+```
+
+
+# EJERCICIO 4
+
+## Funciones de clase
+
+**Introducción datos**
+
+```{r}
+#matriz criterios
+tab1 <- multicriterio.crea.matrizvaloraciones_mej(c(2), numalternativas = 2,
+                                                  v.nombres.alternativas = c("Rendimiento",
+                                                                             "Riesgo"))
+
+#matriz rendimiento
+tab2 <- multicriterio.crea.matrizvaloraciones_mej(c(3), numalternativas = 2,
+                                                  v.nombres.alternativas = c("A","B"))
+
+#matriz riesgo
+tab3 <- multicriterio.crea.matrizvaloraciones_mej(c(1/2), numalternativas = 2,
+                                                  v.nombres.alternativas = c("A","B"))
+```
+
+**Cálculo pesos locales**
+
+*Método mayor autovalor*
+
+```{r}
+pes1 <- multicriterio.metodoAHP.variante1.autovectormayorautovalor(tab1)
+pes2 <- multicriterio.metodoAHP.variante1.autovectormayorautovalor(tab2)
+pes3 <- multicriterio.metodoAHP.variante1.autovectormayorautovalor(tab3)
+```
+
+**Cálculo pesos globales**
+
+```{r}
+tab04 <- multicriterio.metodoAHP.pesosglobales_entabla(pes1$valoraciones.ahp,
+                                                       rbind(pes2$valoraciones.ahp,
+                                                             pes3$valoraciones.ahp))
+```
+
+```{r, echo=FALSE}
+tab04 %>%
+  kable(booktabs = TRUE,format = "latex") %>%
+  kable_styling(latex_options = c("striped", "condensed","HOLD_position"), 
+                position = "center",
+                full_width = FALSE)
+```
+
+La mejor decisión es la alternativa A (peso global del 61,11%)
+
+```{r}
+which.max(tab04[,1])
+```
+
+Para el rendimiento la mejor alternativa es la A
+
+```{r}
+which.max(tab04[,2])
+```
+
+Para el riesgo la mejor alternativa es la B
+
+Además del método de mayor autovalor, tambien tenemos:
+
+*Método de media geométrica*
+```{r}
+pes1 <- multicriterio.metodoAHP.variante2.mediageometrica(tab1)
+pes2 <- multicriterio.metodoAHP.variante2.mediageometrica(tab2)
+pes3 <- multicriterio.metodoAHP.variante2.mediageometrica(tab3)
+```
+
+*Método básico*
+```{r}
+pes1 <- multicriterio.metodoAHP.variante3.basico(tab1)
+pes2 <- multicriterio.metodoAHP.variante3.basico(tab2)
+pes3 <- multicriterio.metodoAHP.variante3.basico(tab3)
+```
+
+## Diagrama Jerarquias
+
+```{r}
+num.alt <- 2
+num.crt <- 2
+Xmatriznivel2_04 <- array(NA, dim = c(num.alt, num.alt, num.crt))
+Xmatriznivel2_04[,,1] <- tab2
+Xmatriznivel2_04[,,2] <- tab3
+dimnames(Xmatriznivel2_04)[[1]] <- c("A","B")
+multicriterio.metodoahp.diagrama(tab1, Xmatriznivel2_04)
+```
+
+## Método ahp
+
+```{r}
+library(ahp)
+datos04 = Load("problema4.ahp")
+Calculate(datos04)
+```
+
+
+```{r}
+Visualize(datos04)
+```
+
+**Tabla solución (contribución total)**
+
+```{r}
+export_formattable(AnalyzeTable(datos04), file = "tablaahp104.png")
+```
+
+La mejor decisión es la alternativa A (peso global del 61,11%)
+
+\newpage
+
+**Tabla solución (pesos locales)**
+```{r}
+t2 = AnalyzeTable(datos04, variable = "priority")
+export_formattable(t2, file = "tablaahp204.png")
+```
+
+# EJERCICIO 5
+
+## Funciones de clase
+
+**Introducción datos**
+
+```{r}
+#matriz criterios
+tab1 <- multicriterio.crea.matrizvaloraciones_mej(c(1/3,1/4,2), numalternativas = 3,
+                                                  v.nombres.alternativas = c("Liderazgo", 
+                                                                             "Habilidad personal", "Habilidad Gestión"))
+
+#matriz liderazgo
+tab2 <- multicriterio.crea.matrizvaloraciones_mej(c(4), numalternativas = 2,
+                                                  v.nombres.alternativas = c("A","B"))
+
+#matriz habilidad personal
+tab3 <- multicriterio.crea.matrizvaloraciones_mej(c(3), numalternativas = 2,
+                                                  v.nombres.alternativas = c("A","B"))
+
+#matriz habilidad gestión
+tab4 <- multicriterio.crea.matrizvaloraciones_mej(c(2), numalternativas = 2,
+                                                  v.nombres.alternativas = c("A","B"))
+```
+
+**Cálculo pesos locales**
+
+*Método mayor autovalor*
+
+```{r}
+pes1 <- multicriterio.metodoAHP.variante1.autovectormayorautovalor(tab1)
+pes2 <- multicriterio.metodoAHP.variante1.autovectormayorautovalor(tab2)
+pes3 <- multicriterio.metodoAHP.variante1.autovectormayorautovalor(tab3)
+pes4 <- multicriterio.metodoAHP.variante1.autovectormayorautovalor(tab4)
+```
+
+**Cálculo pesos globales**
+
+```{r}
+tab05 <- multicriterio.metodoAHP.pesosglobales_entabla(pes1$valoraciones.ahp,
+                                                       rbind(pes2$valoraciones.ahp,
+                                                             pes3$valoraciones.ahp, 
+                                                             pes4$valoraciones.ahp))
+```
+
+```{r, echo=FALSE}
+tab05 %>%
+  kable(booktabs = TRUE,format = "latex") %>%
+  kable_styling(latex_options = c("striped", "condensed","HOLD_position"), 
+                position = "center",
+                full_width = FALSE)
+```
+
+La mejor decisión es la alternativa A (peso global del 72,63%)
+
+```{r}
+which.max(tab05[,1])
+```
+
+Para el liderazgo la mejor alternativa es la A
+
+```{r}
+which.max(tab05[,2])
+```
+
+Para la habilidad personal la mejor alternativa es la A
+
+```{r}
+which.max(tab05[,3])
+```
+
+Para la habilidad gestión la mejor alternativa es la A
+
+Además del método de mayor autovalor, tambien tenemos:
+
+*Método de media geométrica*
+```{r}
+pes1 <- multicriterio.metodoAHP.variante2.mediageometrica(tab1)
+pes2 <- multicriterio.metodoAHP.variante2.mediageometrica(tab2)
+pes3 <- multicriterio.metodoAHP.variante2.mediageometrica(tab3)
+pes4 <- multicriterio.metodoAHP.variante2.mediageometrica(tab4)
+```
+
+*Método básico*
+```{r}
+pes1 <- multicriterio.metodoAHP.variante3.basico(tab1)
+pes2 <- multicriterio.metodoAHP.variante3.basico(tab2)
+pes3 <- multicriterio.metodoAHP.variante3.basico(tab3)
+pes4 <- multicriterio.metodoAHP.variante3.basico(tab4)
+```
+
+## Diagrama Jerarquias
+
+```{r}
+num.alt <- 2
+num.crt <- 3
+Xmatriznivel2_05 <- array(NA, dim = c(num.alt, num.alt, num.crt))
+Xmatriznivel2_05[,,1] <- tab2
+Xmatriznivel2_05[,,2] <- tab3
+Xmatriznivel2_05[,,3] <- tab4
+dimnames(Xmatriznivel2_05)[[1]] <- c("A","B")
+dimnames(Xmatriznivel2_05)[[2]] <- c("A","B")
+dimnames(Xmatriznivel2_05)[[3]] <- c("Liderazgo","Habilidad personal", "Habilidad gestión")
+multicriterio.metodoahp.diagrama(tab1, Xmatriznivel2_05)
+```
+
+## Método ahp
+
+```{r}
+library(ahp)
+datos05 = Load("problema5.ahp")
+Calculate(datos05)
+```
+
+```{r}
+Visualize(datos05)
+```
+
+**Tabla solución (contribución total)**
+
+```{r}
+export_formattable(AnalyzeTable(datos05), file = "tablaahp105.png")
+```
+
+La mejor decisión es la alternativa A (peso global del 72,63%)
+
+**Tabla solución (pesos locales)**
+```{r}
+t2 = AnalyzeTable(datos05, variable = "priority")
+export_formattable(t2, file = "tablaahp205.png")
+```
