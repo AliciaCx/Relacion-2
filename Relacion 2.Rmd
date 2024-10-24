@@ -4,11 +4,10 @@ date: "Curso 2024-2025"
 output:
   pdf_document:
     toc: true
-    number_sections: true
     toc_depth: 5
+  html_document:
+    toc: true
 lang: es
-number-sections: true
-toc: true
 ---
 
 
@@ -662,7 +661,7 @@ tab06_com <- pg06com$pesos.globales_entabla
 
 ```{r, echo=FALSE}
 tab06_com %>%
-  kable(booktabs = TRUE,format = "latex") %>%
+  kable(booktabs = TRUE) %>%
   kable_styling(latex_options = c("striped", "condensed","HOLD_position"), 
                 position = "center",
                 full_width = FALSE)
@@ -876,6 +875,87 @@ res02$tabAcciones
 rownames(res$Acciones)
 ```
 
+# EJERCICIO 8
+
+```{r}
+tab08 <- multicriterio.crea.matrizdecision(c(-80,90-6,-5.4,-8,5,
+                                             -65,58,-2,-9.7,-1,1,
+                                             -83,60,-4,-7.2,-4,7,
+                                             -40,80,-10,-7.5,-7,10,
+                                             -52,72,-6,-2.0,-3,8,
+                                             -94,96,-7-3.6,-5,6),
+                                           numalternativas=6,
+                                           numcriterios=6,
+                                           v.nombresalt=c('A1','A2','A3','A4','A5','A6'),
+v.nombrescri=c('f1', 'f2','f3','f4', 'f5','f6'))
+
+pesos.criterios = c(1/6,1/6,1/6,1/6,1/6,1/6)
+tab.fpref = matrix (c(2,10,1,0,
+                      3,0,30,0,
+                      5,0.5,5,0,
+                      4,1,6,0,
+                      1,0,1,0,
+                      6,0,1,5),ncol=4,byrow=T) 
+tab.fpref
+```
+
+### PROMETHEE I
+```{r}
+tab.Pthee.i = multicriterio.metodo.promethee_i(tab08,pesos.criterios,tab.fpref)
+tab.Pthee.i
+
+require ("qgraph") 
+qgraph(tab.Pthee.i$tablarelacionsupera)
+```
+
+### PROMETHEE II
+
+```{r}
+tab.Pthee.ii = multicriterio.metodo.promethee_ii(tab08,pesos.criterios,tab.fpref)
+tab.Pthee.ii 
+
+qgraph(tab.Pthee.ii$tablarelacionsupera)
+```
+
+### PROMETHEE I (medias)
+
+```{r}
+tab.Pthee.i_med = multicriterio.metodo.promethee_i_med(tab08,pesos.criterios,tab.fpref)
+tab.Pthee.i_med
+
+qgraph (tab.Pthee.i_med$tablarelacionsupera)
+```
+
+### PROMETHEE II (medias)
+```{r}
+tab.Pthee.ii_med = multicriterio.metodo.promethee_ii_med(tab08,pesos.criterios,tab.fpref)
+tab.Pthee.ii_med
+
+qgraph (tab.Pthee.ii_med$tablarelacionsupera)
+```
+
+### Ordenación final alternativas Mét. Promethee II (medias)
+```{r}
+order(tab.Pthee.ii_med$vflujos.netos,decreasing = T)
+```
+
+### Comparativa Promethee II: sin medias y con medias
+```{r}
+order(tab.Pthee.ii$vflujos.netos,decreasing = T)
+order(tab.Pthee.ii_med$vflujos.netos,decreasing = T)
+```
+
+### Resolución con Promethee Windows
+```{r}
+res = multicriterio.metodo.promethee_windows(tab08, tab.fpref, pesos.criterios)
+res = multicriterio.metodo.promethee_windows (tab08, tab.fpref, pesos.criterios,
+fminmax = c("min", "max", "min", "min","min","max"))
+
+res02 = multicriterio.metodo.promethee_windows_kableExtra(res)
+res02$tabEscenario
+res02$tabAcciones
+rownames(res$Acciones)
+```
 
 
 
