@@ -16,7 +16,7 @@ toc: true
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-```{r, echo=FALSE, warning=FALSE}
+```{r, echo=FALSE, warning=FALSE, include=FALSE}
 source("teoriadecision_funciones_multicriterio_diagram.R")
 source("teoriadecision_funciones_multicriterio_utiles.R")
 source("teoriadecision_funciones_multicriterio.R")
@@ -378,13 +378,10 @@ La mejor decisión es la alternativa A (peso global del 61,11%)
 
 ```{r}
 which.max(tab04[,1])
+which.max(tab04[,2])
 ```
 
 Para el rendimiento la mejor alternativa es la A
-
-```{r}
-which.max(tab04[,2])
-```
 
 Para el riesgo la mejor alternativa es la B
 
@@ -416,6 +413,8 @@ dimnames(Xmatriznivel2_04)[[1]] <- c("A","B")
 multicriterio.metodoahp.diagrama(tab1, Xmatriznivel2_04)
 ```
 
+La mejor decisión es la alternativa A (peso global del 61,11%)
+
 ## Método ahp
 
 ```{r}
@@ -435,7 +434,7 @@ Visualize(datos04)
 export_formattable(AnalyzeTable(datos04), file = "tablaahp104.png")
 ```
 
-La mejor decisión es la alternativa A (peso global del 61,11%)
+La mejor decisión es la alternativa A (peso global del 61,1%)
 
 \newpage
 
@@ -502,19 +501,13 @@ La mejor decisión es la alternativa A (peso global del 72,63%)
 
 ```{r}
 which.max(tab05[,1])
+which.max(tab05[,2])
+which.max(tab05[,3])
 ```
 
 Para el liderazgo la mejor alternativa es la A
 
-```{r}
-which.max(tab05[,2])
-```
-
 Para la habilidad personal la mejor alternativa es la A
-
-```{r}
-which.max(tab05[,3])
-```
 
 Para la habilidad gestión la mejor alternativa es la A
 
@@ -551,6 +544,8 @@ dimnames(Xmatriznivel2_05)[[3]] <- c("Liderazgo","Habilidad personal", "Habilida
 multicriterio.metodoahp.diagrama(tab1, Xmatriznivel2_05)
 ```
 
+La mejor decisión es la alternativa A (peso global del 72,64%)
+
 ## Método ahp
 
 ```{r}
@@ -569,10 +564,325 @@ Visualize(datos05)
 export_formattable(AnalyzeTable(datos05), file = "tablaahp105.png")
 ```
 
-La mejor decisión es la alternativa A (peso global del 72,63%)
+La mejor decisión es la alternativa A (peso global del 72,6%)
 
 **Tabla solución (pesos locales)**
 ```{r}
 t2 = AnalyzeTable(datos05, variable = "priority")
 export_formattable(t2, file = "tablaahp205.png")
 ```
+
+# EJERCICIO 6
+
+## Funciones de clase
+
+**Introducción datos**
+
+```{r}
+#matriz criterios
+n.criterios = c("Costo", "Confiabilidad", "Plazo Entrega")
+tab1 <- multicriterio.crea.matrizvaloraciones_mej(c(7,9,3), numalternativas = 3,
+                                                  v.nombres.alternativas = n.criterios)
+
+#matriz costo
+n.alternativas <- c("A","B","C")
+tab2 <- multicriterio.crea.matrizvaloraciones_mej(c(1/3,6,8), numalternativas = 3,
+                                                  v.nombres.alternativas = n.alternativas)
+
+#matriz confiabilidad
+tab3 <- multicriterio.crea.matrizvaloraciones_mej(c(6,2,1/3), numalternativas = 3,
+                                                  v.nombres.alternativas = n.alternativas)
+
+#matriz plazo entrega
+tab4 <- multicriterio.crea.matrizvaloraciones_mej(c(8,1,1/8), numalternativas = 3,
+                                                  v.nombres.alternativas = n.alternativas)
+```
+
+### Método 1 (mayor autovalor)
+
+**Cálculo pesos locales**
+
+*Método mayor autovalor*
+
+```{r}
+pes1 <- multicriterio.metodoAHP.variante1.autovectormayorautovalor(tab1)
+pes2 <- multicriterio.metodoAHP.variante1.autovectormayorautovalor(tab2)
+pes3 <- multicriterio.metodoAHP.variante1.autovectormayorautovalor(tab3)
+pes4 <- multicriterio.metodoAHP.variante1.autovectormayorautovalor(tab4)
+```
+
+**Cálculo pesos globales**
+
+```{r}
+tab06 <- multicriterio.metodoAHP.pesosglobales_entabla(pes1$valoraciones.ahp,
+                                                       rbind(pes2$valoraciones.ahp,
+                                                             pes3$valoraciones.ahp, 
+                                                             pes4$valoraciones.ahp))
+```
+
+```{r, echo=FALSE}
+tab06 %>%
+  kable(booktabs = TRUE,format = "latex") %>%
+  kable_styling(latex_options = c("striped", "condensed","HOLD_position"), 
+                position = "center",
+                full_width = FALSE)
+```
+
+La mejor decisión es la alternativa B (peso global del 53,1%)
+
+Además del método de mayor autovalor, tambien tenemos:
+
+*Método de media geométrica*
+```{r}
+pes1 <- multicriterio.metodoAHP.variante2.mediageometrica(tab1)
+pes2 <- multicriterio.metodoAHP.variante2.mediageometrica(tab2)
+pes3 <- multicriterio.metodoAHP.variante2.mediageometrica(tab3)
+pes4 <- multicriterio.metodoAHP.variante2.mediageometrica(tab4)
+```
+
+*Método básico*
+```{r}
+pes1 <- multicriterio.metodoAHP.variante3.basico(tab1)
+pes2 <- multicriterio.metodoAHP.variante3.basico(tab2)
+pes3 <- multicriterio.metodoAHP.variante3.basico(tab3)
+pes4 <- multicriterio.metodoAHP.variante3.basico(tab4)
+```
+
+### Método 2 (completo)
+```{r}
+num.alt = 3
+num.crt = 3
+Xarray_nivel2 = array (NA, dim=c(num.alt, num.alt, num.crt))
+Xarray_nivel2[,,1] = tab2
+Xarray_nivel2[,,2] = tab3
+Xarray_nivel2[,,3] = tab4
+pg06com = multicriterio.metodoAHP.variante3.completo(tab1,Xarray_nivel2)
+tab06_com <- pg06com$pesos.globales_entabla
+```
+
+```{r, echo=FALSE}
+tab06_com %>%
+  kable(booktabs = TRUE,format = "latex") %>%
+  kable_styling(latex_options = c("striped", "condensed","HOLD_position"), 
+                position = "center",
+                full_width = FALSE)
+```
+
+La mejor decisión es la alternativa B (peso global del 52,1%)
+
+
+## Diagrama Jerarquias
+
+```{r}
+num.alt <- 3
+num.crt <- 3
+Xmatriznivel2_06 <- array(NA, dim = c(num.alt, num.alt, num.crt))
+Xmatriznivel2_06[,,1] <- tab2
+Xmatriznivel2_06[,,2] <- tab3
+Xmatriznivel2_06[,,3] <- tab4
+dimnames(Xmatriznivel2_06)[[1]] <- n.alternativas
+multicriterio.metodoahp.diagrama(tab1, Xmatriznivel2_06)
+```
+
+La mejor decisión es la alternativa B (peso global del 53,15%)
+
+## Estudio de la inconsistencia con funciones R de clase.
+
+Al ser matrices “3x3” hay que estudiar la inconsistencia
+
+```{r}
+(inconsistencia1 <- multicriterio.metodoAHP.coef.inconsistencia(tab1))
+
+inconsistencia2 <- multicriterio.metodoAHP.coef.inconsistencia(tab2)
+c(inconsistencia2$mensaje,round(inconsistencia2$RI.coef.inconsistencia,4))
+
+inconsistencia3 <- multicriterio.metodoAHP.coef.inconsistencia(tab3)
+c(inconsistencia3$mensaje,round(inconsistencia3$RI.coef.inconsistencia,4))
+
+inconsistencia4 <- multicriterio.metodoAHP.coef.inconsistencia(tab4)
+c(inconsistencia4$mensaje,round(inconsistencia4$RI.coef.inconsistencia,4))
+```
+
+## Método ahp
+```{r}
+library(ahp)
+datos06 = Load("problema6.ahp")
+Calculate(datos06)
+```
+
+```{r}
+Visualize(datos06)
+```
+
+**Tabla solución (contribución total)**
+
+```{r}
+export_formattable(AnalyzeTable(datos06), file = "tablaahp106.png")
+```
+
+La mejor decisión es la alternativa B (peso global del 53.1%)
+
+**Tabla solución (pesos locales)**
+```{r}
+t2 = AnalyzeTable(datos06, variable = "priority")
+export_formattable(t2, file = "tablaahp206.png")
+```
+
+# EJERCICIO 7
+
+## Iteración 1. Introducir datos y resolver
+```{r}
+tab07 <- multicriterio.crea.matrizdecision(c(100,15,7,40,-50,
+                                             200,25,7,60,-200,
+                                             100,20,4,25,-25,
+                                             200,30,20,70,-350,
+                                             250,25,15,100,-500),
+                                           numalternativas = 5,
+                                           numcriterios = 5)
+```
+
+```{r, echo=FALSE}
+tab07 %>%
+  kable(booktabs = TRUE,format = "latex") %>%
+  kable_styling(latex_options = c("striped", "condensed","HOLD_position"), 
+                position = "center",
+                full_width = FALSE)
+```
+
+```{r}
+sal07 <- multicriterio.metodoELECTRE_I(tab07, 
+                                       pesos.criterios = c(0.25,0.25,0.2,0.2,0.2),
+                                       nivel.concordancia.minimo.alpha = 0.7,
+                                       no.se.compensan = c(60, Inf, 4, Inf, Inf),
+                                       que.alternativas = T) 
+
+qgraph::qgraph(sal07$relacion.dominante)
+sal07$nucleo_aprox
+```
+
+## Iteración 2 y 3. Se reducen aleternativas y/o alpha
+
+Para intentar quedarse con una única alternativa óptima:
+
+  -   reducir el grafo a las alternativas en el núcleo y/o
+  
+  -   reducir el valor de alpha [0.5, 1) 
+
+```{r}
+sal07_2 <- multicriterio.metodoELECTRE_I(tab07, 
+                                       pesos.criterios = c(0.25,0.25,0.2,0.2,0.2),
+                                       nivel.concordancia.minimo.alpha = 0.7,
+                                       no.se.compensan = c(60, Inf, 4, Inf, Inf),
+                                       que.alternativas = c(4,5)) 
+
+qgraph::qgraph(sal07_2$relacion.dominante)
+sal07_2$nucleo_aprox
+```
+
+```{r}
+sal07_3 <- multicriterio.metodoELECTRE_I(tab07, 
+                                       pesos.criterios = c(0.25,0.25,0.2,0.2,0.2),
+                                       nivel.concordancia.minimo.alpha = 0.55,
+                                       no.se.compensan = c(60, Inf, 4, Inf, Inf),
+                                       que.alternativas = c(4,5)) 
+
+qgraph::qgraph(sal07_3$relacion.dominante)
+sal07_3$nucleo_aprox
+```
+
+Obtenemos un único núcleo 
+
+## Método ELECTRE I
+```{r}
+elec_07 <- func_ELECTRE_Completo(sal07)
+elec_07$Grafo
+```
+
+Tenemos que: $a_2Sa_1$, $a_2Sa_3$, $a_4Sa_1$, $a_4Sa_3$, $a_5Sa_1$, $a_5Sa_3$
+
+```{r}
+qgraph::qgraph(elec_07$Grafo)
+elec_07$Nucleo
+```
+
+## Método PROMETHEE
+
+```{r}
+pesos.criterios = c(0.25/1.1,0.25/1.1,0.2/1.1,0.2/1.1,0.2/1.1) #se divide entre la suma de los pesos totales
+
+tab.fpref = matrix(c(1,0,0,0,
+                      1,0,0,0,
+                      1,0,0,0,
+                      1,0,0,0,
+                      1,0,0,0) ,ncol=4,byrow=T)
+```
+
+
+### PROMETHEE I
+```{r}
+tab.Pthee.i = multicriterio.metodo.promethee_i(tab07,pesos.criterios,tab.fpref)
+tab.Pthee.i
+
+require ("qgraph") 
+qgraph(tab.Pthee.i$tablarelacionsupera)
+```
+
+### PROMETHEE II
+
+```{r}
+tab.Pthee.ii = multicriterio.metodo.promethee_ii(tab07,pesos.criterios,tab.fpref)
+tab.Pthee.ii 
+
+qgraph(tab.Pthee.ii$tablarelacionsupera)
+```
+
+### PROMETHEE I (medias)
+
+```{r}
+tab.Pthee.i_med = multicriterio.metodo.promethee_i_med(tab07,pesos.criterios,tab.fpref)
+tab.Pthee.i_med
+
+qgraph (tab.Pthee.i_med$tablarelacionsupera)
+```
+
+### PROMETHEE II (medias)
+```{r}
+tab.Pthee.ii_med = multicriterio.metodo.promethee_ii_med(tab07,pesos.criterios,tab.fpref)
+tab.Pthee.ii_med
+
+qgraph (tab.Pthee.ii_med$tablarelacionsupera)
+```
+
+### Ordenación final alternativas Mét. Promethee II (medias)
+```{r}
+order(tab.Pthee.ii_med$vflujos.netos,decreasing = T)
+```
+
+### Comparativa Promethee II: sin medias y con medias
+```{r}
+order(tab.Pthee.ii$vflujos.netos,decreasing = T)
+order(tab.Pthee.ii_med$vflujos.netos,decreasing = T)
+```
+
+### Resolución con Promethee Windows
+```{r}
+res = multicriterio.metodo.promethee_windows(tab07, tab.fpref, pesos.criterios)
+res = multicriterio.metodo.promethee_windows (tab07, tab.fpref, pesos.criterios,
+fminmax = c("max", "max", "max", "max","min"))
+
+res02 = multicriterio.metodo.promethee_windows_kableExtra(res)
+res02$tabEscenario
+res02$tabAcciones
+rownames(res$Acciones)
+```
+
+
+
+
+
+
+
+
+
+
+
